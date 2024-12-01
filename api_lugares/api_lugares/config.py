@@ -30,10 +30,29 @@ def setup_db(collection_name: str):
 #-----------------------------------------------------------------------------------#
 
 def get_existing_collections():
-    """Obtiene las colecciones existentes en CouchDB."""
     try:
+        # Conectarse al servidor CouchDB
         couch = couchdb.Server(COUCHDB_URL)
-        return couch.resource.keys()
+        
+                
+        response = couch.resource.get('_all_dbs')
+
+        # Acceder al cuerpo de la respuesta (el tercer elemento en la tupla)
+        response_body = response[2].read().decode('utf-8')
+
+        # Convertirlo de JSON a una lista de bases de datos
+        import json
+        db_names = json.loads(response_body)
+
+        print(db_names)
+
+        # Devuelve la lista de nombres de las bases de datos
+        return db_names
+    
     except couchdb.http.ServerError as e:
-        print(f"Error al obtener las colecciones: {e}")
+        print(f"Error al conectar con CouchDB: {e}")
+        return []
+
+    except Exception as e:
+        print(f"Se produjo un error inesperado: {e}")
         return []
