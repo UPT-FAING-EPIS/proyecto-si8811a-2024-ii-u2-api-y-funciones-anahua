@@ -1,0 +1,27 @@
+
+services:
+  couchdb:
+    image: couchdb:latest
+    container_name: couchdb
+    ports:
+      - "5984:5984"
+    volumes:
+      - couchdb_data:/opt/couchdb/data
+    environment:
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=admin
+
+  fastapi:
+    #image: palbertt/automatizacion:api2-v1.0.0
+    #image: maynerac/api-lugares:latest
+    build: .
+    container_name: fastapi
+    ports:
+      - "8000:8000"
+    depends_on:
+      - couchdb
+    environment:
+      COUCHDB_URL: http://admin:admin@couchdb:5984
+
+volumes:
+  couchdb_data: 
