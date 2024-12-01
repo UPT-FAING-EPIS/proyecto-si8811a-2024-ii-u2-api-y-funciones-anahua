@@ -1,6 +1,6 @@
 # tests/test_schemas.py
 from pydantic import ValidationError
-from app.schemas import LugarCreate, DireccionCreate, CategoriaCreate
+from api_lugares.schemas import LugarCreate, DireccionCreate, CategoriaCreate
 import pytest
 
 # Pruebas para LugarCreate

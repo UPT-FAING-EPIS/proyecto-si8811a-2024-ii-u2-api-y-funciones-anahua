@@ -1,7 +1,7 @@
 import os
 from unittest import mock
 import pytest
-from app.config import setup_db
+from api_lugares.config import setup_db
 
 # Mock para simular la conexión con CouchDB
 @mock.patch('couchdb.Server')

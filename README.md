@@ -1,6 +1,6 @@
 [![Open in Codespaces](https://classroom.github.com/assets/launch-codespace-2972f46106e565e64193e422d61a12cf1da4916b45550586e14ef0a7c637dd04.svg)](https://classroom.github.com/open-in-codespaces?assignment_repo_id=17379747)
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/UPT-FAING-EPIS/proyecto-si8811a-2024-ii-u1-api-y-funciones-zevallos-y-anahua)
-![Docker Image Version](https://img.shields.io/docker/v/palbertt/proyecto-si8811a-2024-ii-u1-api-y-funciones-zevallos-y-anahua?label=docker&logo=docker)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/UPT-FAING-EPIS/proyecto-si8811a-2024-ii-u2-api-y-funciones-anahua)
+![Docker Image Version](https://img.shields.io/docker/v/maynerac/api-lugares?label=docker&logo=docker)
 
 ## API de Lugares
 
@@ -80,13 +80,13 @@ Puedes consultar la imagen del proyecto en Docker Hub:
 1. Clonar el repositorio:
 
    ```bash
-   git clone https://github.com/UPT-FAING-EPIS/proyecto-si8811a-2024-ii-u1-api-y-funciones-zevallos-y-anahua.git
+   git clone https://github.com/UPT-FAING-EPIS/proyecto-si8811a-2024-ii-u2-api-y-funciones-anahua.git
    ```
 
 2. Navegar al directorio del proyecto:
 
    ```bash
-   cd proyecto-si8811a-2024-ii-u1-api-y-funciones-zevallos-y-anahua/api_lugares
+   cd proyecto-si8811a-2024-ii-u2-api-y-funciones-anahua/api_lugares
    ```
 
 3. Crear un entorno virtual e instalar las dependencias:
