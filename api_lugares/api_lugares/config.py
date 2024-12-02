@@ -1,5 +1,6 @@
 import couchdb
 import os
+import json
 
 # Obtener la URL de CouchDB del entorno
 COUCHDB_URL = os.getenv('COUCHDB_URL', 'http://admin:admin@localhost:5984')
@@ -9,11 +10,11 @@ def setup_db(collection_name: str):
         # Conectarse al servidor CouchDB
         couch = couchdb.Server(COUCHDB_URL)
         
-        # Intentar acceder a la base de datos dada
+        # Acceder a la db del parametro
         try:
             db = couch[collection_name]
         except couchdb.http.ResourceNotFound:
-            # Si la base de datos no existe, crearla
+            # Si no existe, crearla
             db = couch.create(collection_name)
             print(f"Base de datos '{collection_name}' creada.")
         
@@ -21,7 +22,7 @@ def setup_db(collection_name: str):
     
     except couchdb.http.ServerError as e:
         print(f"Error de conexión con CouchDB: {e}")
-        raise  # Re-lanzar la excepción para que se maneje en otro lugar si es necesario
+        raise
 
     except Exception as e:
         print(f"Se produjo un error inesperado: {e}")
@@ -34,19 +35,11 @@ def get_existing_collections():
         # Conectarse al servidor CouchDB
         couch = couchdb.Server(COUCHDB_URL)
         
-                
         response = couch.resource.get('_all_dbs')
-
-        # Acceder al cuerpo de la respuesta (el tercer elemento en la tupla)
         response_body = response[2].read().decode('utf-8')
-
-        # Convertirlo de JSON a una lista de bases de datos
-        import json
         db_names = json.loads(response_body)
-
         print(db_names)
 
-        # Devuelve la lista de nombres de las bases de datos
         return db_names
     
     except couchdb.http.ServerError as e:
