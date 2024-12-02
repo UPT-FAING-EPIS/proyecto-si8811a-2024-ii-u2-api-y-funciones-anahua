@@ -9,6 +9,7 @@ import re
 from fastapi import HTTPException
 from .utils import validate_collection_name
 
+from .schemas import LugarModel, PizzaModel, DrinkModel
 
 
 #CREARBD FUNCION() ??
@@ -60,23 +61,16 @@ from .utils import validate_collection_name
 
 # Función generadora para todos los endpoints
 def generar_endpoints_todos(app: FastAPI, collection_names: Optional[List[str]] = None, models_dict: Optional[Dict[str, Type[BaseCollectionSchema]]] = None):
-    # Si se pasa un diccionario de modelos, usaremos las colecciones que están en el diccionario
     if models_dict:
-        # Usamos las claves del diccionario como los nombres de las colecciones
         collection_names = list(models_dict.keys())
     else:
-        # Si no se pasa un diccionario, usamos collection_names o las colecciones existentes
         collection_names = collection_names or get_existing_collections()
 
-    # Si no se pasa un diccionario de modelos, usamos el modelo por defecto
     models_dict = models_dict or {}
 
-    # Generamos los endpoints para cada colección
     for collection_name in collection_names:
-        # Determinamos el modelo a usar (si no se pasa, usamos el modelo por defecto)
         model = models_dict.get(collection_name, BaseCollectionSchema)
 
-        # Llamar a la función generadora de endpoints con el modelo adecuado
         generar_endpoints(app, collection_name, model)
 
 
@@ -86,17 +80,17 @@ def generar_endpoints_todos(app: FastAPI, collection_names: Optional[List[str]] 
 def generar_endpoints_genericos(app, tag_name: str = "Todos"):
     
     # Rutas genéricas para cualquier colección
-    @app.post("/{collection_name}/", tags=[tag_name])
+    @app.post("/generic/{collection_name}/", tags=[tag_name])
     async def create_new_item(collection_name: str, item: BaseCollectionSchema):
         validate_collection_name(collection_name)  # Validar el nombre de la colección
         return create_item(collection_name, item)
 
-    @app.get("/{collection_name}/", tags=[tag_name])
+    @app.get("/generic/{collection_name}/", tags=[tag_name])
     async def get_all_items(collection_name: str):
         validate_collection_name(collection_name)  # Validar el nombre de la colección
         return get_items(collection_name)
 
-    @app.get("/{collection_name}/{item_id}", tags=[tag_name])
+    @app.get("/generic/{collection_name}/{item_id}", tags=[tag_name])
     async def get_single_item(collection_name: str, item_id: str):
         validate_collection_name(collection_name)  # Validar el nombre de la colección
         item = get_item(collection_name, item_id)
@@ -104,7 +98,7 @@ def generar_endpoints_genericos(app, tag_name: str = "Todos"):
             raise HTTPException(status_code=404, detail=f"{collection_name.capitalize()} no encontrado")
         return item
 
-    @app.put("/{collection_name}/{item_id}", tags=[tag_name])
+    @app.put("/generic/{collection_name}/{item_id}", tags=[tag_name])
     async def update_single_item(collection_name: str, item_id: str, item: BaseCollectionSchema):
         validate_collection_name(collection_name)  # Validar el nombre de la colección
         updated_item = update_item(collection_name, item_id, item.dict())
@@ -112,7 +106,7 @@ def generar_endpoints_genericos(app, tag_name: str = "Todos"):
             raise HTTPException(status_code=404, detail=f"{collection_name.capitalize()} no encontrado")
         return updated_item
 
-    @app.delete("/{collection_name}/{item_id}", tags=[tag_name])
+    @app.delete("/generic/{collection_name}/{item_id}", tags=[tag_name])
     async def deactivate_single_item(collection_name: str, item_id: str):
         validate_collection_name(collection_name)  # Validar el nombre de la colección
         item = deactivate_item(collection_name, item_id)
@@ -129,7 +123,10 @@ from fastapi import HTTPException
 from typing import Type
 
 # Función generadora para endpoints específicos con modelo opcional
+#def generar_endpoints(app, collection_name: str, model: Type[BaseCollectionSchema] = None, tag_name: str = None):
+#
 def generar_endpoints(app, collection_name: str, model: Type[BaseCollectionSchema] = None, tag_name: str = None):
+
     if not collection_name:
         raise HTTPException(status_code=400, detail="El nombre de la colección es obligatorio.")
 
@@ -178,7 +175,6 @@ def generar_endpoints(app, collection_name: str, model: Type[BaseCollectionSchem
 
 #-----------------------------------------------------------#
 
-from .schemas import LugarModel, PizzaModel, DrinkModel
 
 generar_endpoints_genericos(app)
 
@@ -195,9 +191,23 @@ generar_endpoints(app,"pelis",LugarModel,"Movies")
 
 models_dicta = {"pizzas": PizzaModel, "bebidas": DrinkModel,}
 #generar_endpoints_todos(app, models_dict=models_dicta)
+#generar_endpoints(app,"pizzas",PizzaModel)
+#generar_endpoints(app,"bebidas",DrinkModel)
 
 
-generar_endpoints_todos(app)
+
+#pizza_instance = PizzaModel(name="Margarita", description="Deliciosa pizza", ingredients="Tomate, queso", size="Mediana", price=12.99, is_vegetarian=True)
+#print(pizza_instance)
+#print(pizza_instance.dict())
+#print(pizza_instance.__class__)
+
+generar_endpoints(app, "pizzas", PizzaModel)
+generar_endpoints(app, "bebidas", DrinkModel)
+
+
+
+
+#generar_endpoints_todos(app)
 
 
 #collection_nameSs=["pizzas_wdd_s", "bebidAAas"]
