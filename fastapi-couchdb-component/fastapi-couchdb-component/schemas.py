@@ -5,7 +5,7 @@ from typing import Optional
 class BaseCollectionSchema(BaseModel):
     estado: int = 1  # 1 para activo, 0 para inactivo
 
-# API Lugares
+# API Lugares - Ejemplo
 class LugarModel(BaseCollectionSchema):
     name: str
     description: Optional[str] = None
@@ -20,20 +20,20 @@ class LugarModel(BaseCollectionSchema):
 
 
 
-# Modelo de Pizza
+# Modelo de Pizza - Ejemplo
 class PizzaModel(BaseCollectionSchema):
     name: str
     description: Optional[str] = None
-    ingredients: str  # Ingredientes de la pizza
-    size: str  # Tamaño de la pizza (por ejemplo, pequeña, mediana, grande)
-    price: float  # Precio de la pizza
-    is_vegetarian: bool  # Si la pizza es vegetariana
+    ingredients: str
+    size: str
+    price: float
+    is_vegetarian: bool
 
-# Modelo de Bebida
+# Modelo de Bebida - Ejemplo
 class DrinkModel(BaseCollectionSchema):
     name: str
     description: Optional[str] = None
-    type: str  # Tipo de bebida (por ejemplo, refresco, jugo, agua)
-    volume_ml: int  # Volumen en mililitros
-    price: float  # Precio de la bebida
-    is_alcoholic: bool  # Si la bebida es alcohólica o no
+    type: str
+    volume_ml: int
+    price: float
+    is_alcoholic: bool

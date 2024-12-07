@@ -17,3 +17,22 @@ class LugarModel(BaseCollection):
     codigo_postal: str
     ciudad: str
     pais: Optional[str] = None
+
+
+# Modelo de Pizza - Ejemplo
+class PizzaModel(BaseCollection):
+    name: str
+    description: Optional[str] = None
+    ingredients: str
+    size: str
+    price: float
+    is_vegetarian: bool
+
+# Modelo de Bebida - Ejemplo
+class DrinkModel(BaseCollection):
+    name: str
+    description: Optional[str] = None
+    type: str
+    volume_ml: int
+    price: float
+    is_alcoholic: bool

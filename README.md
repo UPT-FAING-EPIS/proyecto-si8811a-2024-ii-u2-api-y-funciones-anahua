@@ -347,3 +347,54 @@ Explicacion de diferentes aspectos sobre la API de Lugares:
 📂 [Ver video de la API de Lugares (Release v0.1.0) - YouTube](https://drive.google.com/file/d/13M5tyNbeWF1lK9fwnD9u-SMbgLkQa6nI/view?usp=sharing)
 
 🎥 [Ver video de la API de Lugares (Release v0.1.0) - Google Drive](https://www.youtube.com/watch?v=_J36U9vYtoo)
+
+
+
+## Codigo a Componentes
+
+```mermaid
+
+classDiagram
+    class BaseCollectionSchema {
+        +int estado
+    }
+
+    class LugarModel {
+        +str name
+        +str description
+        +str direccion
+        +int capacidad
+        +float latitud
+        +float longitud
+        +str categoria
+        +str codigo_postal
+        +str ciudad
+        +str pais
+    }
+
+    class PizzaModel {
+        +str name
+        +str description
+        +str ingredients
+        +str size
+        +float price
+        +bool is_vegetarian
+    }
+
+    class DrinkModel {
+        +str name
+        +str description
+        +str type
+        +int volume_ml
+        +float price
+        +bool is_alcoholic
+    }
+
+    BaseCollectionSchema <|-- LugarModel
+    BaseCollectionSchema <|-- PizzaModel
+    BaseCollectionSchema <|-- DrinkModel
+
+```
+
+![alt text](image.png)
+
