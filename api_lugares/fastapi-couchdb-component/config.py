@@ -49,3 +49,51 @@ def get_existing_collections():
     except Exception as e:
         print(f"Se produjo un error inesperado: {e}")
         return []
+    
+
+
+def delete_single_collection(collection_name: str):
+    try:
+        # Conectarse al servidor CouchDB
+        couch = couchdb.Server(COUCHDB_URL)
+        
+        # Obtener todas las bases de datos existentes
+        db_names = get_existing_collections()
+
+        if collection_name in db_names:
+            try:
+                couch.delete(collection_name)
+                print(f"Base de datos '{collection_name}' eliminada.")
+            except couchdb.http.ResourceNotFound:
+                print(f"La base de datos '{collection_name}' no se pudo encontrar para eliminar.")
+        else:
+            print(f"La base de datos '{collection_name}' no existe.")
+
+    except couchdb.http.ServerError as e:
+        print(f"Error al conectar con CouchDB: {e}")
+
+    except Exception as e:
+        print(f"Se produjo un error inesperado: {e}")
+
+
+def delete_all_collections():
+    try:
+        # Conectarse al servidor CouchDB
+        couch = couchdb.Server(COUCHDB_URL)
+        
+        # Obtener todas las bases de datos existentes
+        db_names = get_existing_collections()
+
+        for db_name in db_names:
+            if db_name not in ["_replicator", "_users"]:  # No borrar bases de datos del sistema
+                try:
+                    couch.delete(db_name)
+                    print(f"Base de datos '{db_name}' eliminada.")
+                except couchdb.http.ResourceNotFound:
+                    print(f"La base de datos '{db_name}' no se pudo encontrar para eliminar.")
+    
+    except couchdb.http.ServerError as e:
+        print(f"Error al conectar con CouchDB: {e}")
+    
+    except Exception as e:
+        print(f"Se produjo un error inesperado: {e}")

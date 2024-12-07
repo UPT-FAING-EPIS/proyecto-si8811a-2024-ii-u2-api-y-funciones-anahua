@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException
-from .config import get_existing_collections, setup_db
+from .config import delete_all_collections, delete_single_collection, get_existing_collections, setup_db
 from .schemas import BaseCollectionSchema
 from fastapi.middleware.cors import CORSMiddleware
 from .crud import (
@@ -33,7 +33,7 @@ app.add_middleware(
 # Configuración inicial (las coleecciones se crea una si no existe)
 @app.on_event("startup")
 async def setup():
-    setup_db("lugares")  # Crear cualquier colección aquí
+    setup_db("_users")  # Crear cualquier colección aquí
     
     # Obtenemos las colecciones existentes desde la base de datos
     #existing_collections = ["lugares", "categorias", "direcciones"]  # Puedes obtener esto dinámicamente
@@ -203,6 +203,17 @@ models_dicta = {"pizzas": PizzaModel, "bebidas": DrinkModel,}
 
 generar_endpoints(app, "pizzas", PizzaModel)
 generar_endpoints(app, "bebidas", DrinkModel)
+
+
+
+
+
+
+#delete_single_collection("pizzas")
+#delete_all_collections()
+
+
+
 
 
 
