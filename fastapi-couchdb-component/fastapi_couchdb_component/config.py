@@ -1,4 +1,76 @@
 import couchdb
+import json
+
+#import os
+# Obtener la URL de CouchDB del entorno
+#COUCHDB_URL = os.getenv('COUCHDB_URL', 'http://admin:admin@localhost:5984')
+
+
+
+class CouchDBManager:
+    def __init__(self, connection_url: str):
+        self.connection_url = connection_url
+        try:
+            self.server = couchdb.Server(self.connection_url)
+        except Exception as e:
+            raise RuntimeError(f"Error al conectar con CouchDB: {e}")
+
+
+
+    def get_db(self, db_name: str):
+        try:
+            if db_name in self.server:
+                return self.server[db_name]
+            else:
+                db = self.server.create(db_name)
+                print(f"Base de datos '{db_name}' creada.")
+                return db
+        except Exception as e:
+            raise RuntimeError(f"Error al obtener/crear la base de datos '{db_name}': {e}")
+
+
+
+    def get_existing_collections(self):
+        try:
+            db_names = list(self.server)
+            print(f"Bases de datos existentes: {db_names}")
+            return db_names
+        except Exception as e:
+            raise RuntimeError(f"Error al obtener las bases de datos existentes: {e}")
+
+
+
+    def delete_collection(self, db_name: str):
+        try:
+            if db_name in self.server:
+                del self.server[db_name]
+                print(f"Base de datos '{db_name}' eliminada.")
+            else:
+                print(f"La base de datos '{db_name}' no existe.")
+        except Exception as e:
+            raise RuntimeError(f"Error al eliminar la base de datos '{db_name}': {e}")
+
+
+
+    def delete_all_collections(self, exclude_system_dbs=True):
+        try:
+            system_dbs = ["_replicator", "_users"] if exclude_system_dbs else []
+            db_names = self.get_existing_collections()
+
+            for db_name in db_names:
+                if db_name not in system_dbs:
+                    self.delete_collection(db_name)
+
+            print(f"Se eliminaron todas las bases de datos, excepto: {system_dbs}")
+        except Exception as e:
+            raise RuntimeError(f"Error al eliminar todas las bases de datos: {e}")
+
+
+'''
+/*
+
+
+import couchdb
 import os
 import json
 
@@ -97,3 +169,10 @@ def delete_all_collections():
     
     except Exception as e:
         print(f"Se produjo un error inesperado: {e}")
+
+        
+
+
+
+*/
+'''
