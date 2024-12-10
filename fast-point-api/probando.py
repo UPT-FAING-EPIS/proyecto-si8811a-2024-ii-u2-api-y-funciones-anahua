@@ -78,3 +78,20 @@ a = generar_endpoints_genericos(app,clase)
 
 
 #Asi la api funcionara con la bd segun la conexion que se desee como puede ser una 86 y etc
+
+
+# Crear el paquete
+# pip install build
+
+# Verificar que todo este en orden
+# tar -tf dist/fast_point_api-0.1.0.tar.gz
+
+
+# Probar intalar el paquete generado
+# pip install dist/fast_point_api-0.1.0-py3-none-any.whl
+
+
+#
+# pip install twine
+#
+# twine upload dist/*
