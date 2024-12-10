@@ -1,7 +1,7 @@
-from fastapi_couchdb_component.config import CouchDBManager
+from fast_point_api.config import CouchDBManager
 
-from fastapi_couchdb_component.schemas import PizzaModel
-from fastapi_couchdb_component.crud import create_item
+from fast_point_api.schemas import PizzaModel
+from fast_point_api.crud import create_item
 
 
 clase = CouchDBManager('http://admin:admin@localhost:5984')
@@ -28,7 +28,7 @@ pizza_data = PizzaModel(name="Margarita", description="Pizza clásica", ingredie
 #new_item = create_item(clase, "pizzas", pizza_data)
 #print(new_item)
 
-from fastapi_couchdb_component.crud import update_item
+from fast_point_api.crud import update_item
 
 updated_data = {"price": 99.99}
 updated_item = update_item(clase, "pizzas", "8468bc67-d09f-4e73-981b-061783ff44a6", updated_data)
