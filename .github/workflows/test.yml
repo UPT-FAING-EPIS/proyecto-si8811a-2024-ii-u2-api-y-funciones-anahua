@@ -29,7 +29,11 @@ jobs:
 
       - name: Initialize CouchDB
         run: |
-          docker exec couchdb-test curl -X PUT http://admin:admin@localhost:5984/_users
+          until curl -X GET http://admin:admin@localhost:5984/_all_dbs; do
+            echo "Waiting for CouchDB to be ready..."
+            sleep 5
+          done
+          curl -X PUT http://admin:admin@localhost:5984/_users
 
       - name: Install dependencies
         run: |
