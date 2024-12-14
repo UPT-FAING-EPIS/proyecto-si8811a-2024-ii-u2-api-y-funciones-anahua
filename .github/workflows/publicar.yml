@@ -1,4 +1,4 @@
-name: Publish Python Package
+name: Publish Python Package to PyPI
 
 on:
   push:
@@ -17,16 +17,18 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: "3.12"
-      
+
     - name: Install packaging tools
       run: |
-        python -m pip install --upgrade pip setuptools wheel twine
+        pip install build twine
 
     - name: Build package
+      working-directory: fast-point-api
       run: |
-        python setup.py sdist bdist_wheel
+        python -m build
 
     - name: Publish to PyPI
+      working-directory: fast-point-api
       env:
         TWINE_USERNAME: __token__
         TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}

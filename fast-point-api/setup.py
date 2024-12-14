@@ -2,8 +2,8 @@ from setuptools import setup, find_packages
 
 setup(
     name="fast-point-api",
-    version="0.1.0",
-    description="A framework for building modular APIs with FastAPI, featuring CouchDB integration for dynamic collections and CRUD operations.",
+    version="1.0.0",
+    description="A package for building APIs with FastAPI, providing integration with CouchDB for managing collections and CRUD operations.",
     long_description=open("README.md", "r", encoding="utf-8").read(),
     long_description_content_type="text/markdown",
     author="maynerac",
