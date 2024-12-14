@@ -10,15 +10,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    services:
-      couchdb:
-        image: couchdb:latest
-        ports:
-          - 5984:5984
-        options: >-
-          --env COUCHDB_USER=admin
-          --env COUCHDB_PASSWORD=admin
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -27,6 +18,18 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: "3.12"
+
+      - name: Start CouchDB container
+        run: |
+          docker run -d --name couchdb-test \
+            -p 5984:5984 \
+            -e COUCHDB_USER=admin \
+            -e COUCHDB_PASSWORD=admin \
+            couchdb:latest
+
+      - name: Initialize CouchDB
+        run: |
+          docker exec couchdb-test curl -X PUT http://admin:admin@localhost:5984/_users
 
       - name: Install dependencies
         run: |
