@@ -7,3 +7,5 @@ dist/
 
 .pytest_cache/
 CACHEDIR.TAG
+
+scripts/.env
