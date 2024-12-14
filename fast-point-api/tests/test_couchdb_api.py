@@ -1,18 +1,23 @@
-# test_couchdb_api.py
-
 import pytest
+import warnings
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "fast_point_api"))
+
 from fast_point_api.config import CouchDBManager
 from fast_point_api.schemas import PizzaModel
 from fast_point_api.crud import create_item, deactivate_item, get_item, get_items, update_item
-import warnings
 
 warnings.filterwarnings("ignore", category=DeprecationWarning, module="pydantic")
 
 # Configuración para pruebas
 @pytest.fixture
 def test_db_manager():
-    """Crea un gestor de base de datos para pruebas."""
-    return CouchDBManager('http://admin:admin@localhost:5984')
+    """Crea un gestor de base de datos para pruebas y asegura que '_users' existe."""
+    db_manager = CouchDBManager('http://admin:admin@localhost:5984')
+    db_manager.get_db('_users')
+    return db_manager
 
 @pytest.fixture
 def test_pizza_data():
